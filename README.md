@@ -1,26 +1,113 @@
-# Getting Started
+# Netcracker Libra Project
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Spring Boot application with PostgreSQL database.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.4.2/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.4.2/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.4.2/reference/web/servlet.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.4.2/reference/data/sql.html#data.sql.jpa-and-spring-data)
+## Prerequisites
 
-### Guides
-The following guides illustrate how to use some features concretely:
+- Java 17
+- Docker and Docker Compose
+- Maven (optional, wrapper included)
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+## Getting Started
 
-### Maven Parent overrides
+### Clone the repository
+```bash
+git clone <repository-url>
+cd netcracker-libra
+```
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+### Build the application
+Using Maven wrapper:
 
+```bash
+./mvnw clean package
+ ```
+
+ ### Run with Docker Compose
+1. Start the application and database:
+```bash
+docker-compose up --build
+ ```
+
+2. The application will be available at:
+   - Application: http://localhost:8080
+   - Database: localhost:5432
+### Database Configuration
+PostgreSQL database details:
+
+- Database name: libra_db
+- Username: postgres
+- Password: postgres
+- Port: 5432
+### Environment Variables
+The following environment variables can be configured in docker-compose.yml:
+
+```yaml
+SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/libra_db
+SPRING_DATASOURCE_USERNAME: postgres
+SPRING_DATASOURCE_PASSWORD: postgres
+ ```
+
+## Development
+### Database Connection Pool Configuration
+The application uses HikariCP with the following settings:
+
+- Maximum pool size: 10
+- Minimum idle connections: 5
+- Idle timeout: 5 minutes
+- Connection timeout: 20 seconds
+- Maximum lifetime: 20 minutes
+### Useful Docker Commands
+Stop the application:
+
+```bash
+docker-compose down
+ ```
+
+View logs:
+
+```bash
+docker-compose logs -f
+ ```
+
+Rebuild and restart:
+
+```bash
+docker-compose up --build --force-recreate
+ ```
+
+### Database Persistence
+PostgreSQL data is persisted in the ./postgres-data directory. This ensures your data survives container restarts.
+
+## Testing
+To run the tests:
+
+```bash
+./mvnw test
+ ```
+
+## API Documentation
+The API documentation will be available at:
+
+- Swagger UI: http://localhost:8080/swagger-ui.html
+- OpenAPI docs: http://localhost:8080/v3/api-docs
+## Troubleshooting
+1. If the application fails to connect to the database:
+   
+   - Ensure PostgreSQL container is running: docker-compose ps
+   - Check logs: docker-compose logs db
+2. If you need to reset the database:
+   
+   - Stop containers: docker-compose down
+   - Delete the postgres-data directory: rm -rf postgres-data
+   - Restart: docker-compose up --build
+
+## Swagger UI
+- Swagger UI will be available at: http://localhost:8080/swagger-ui.html
+- OpenAPI documentation will be at: http://localhost:8080/v3/api-docs
+- Each endpoint will have clear documentation
+- Response codes and their meanings will be documented
+- API consumers will have better understanding of the API capabilities
+
+
+## License
