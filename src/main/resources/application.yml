@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: netcracker-libra
+  datasource:
+    url: jdbc:postgresql://localhost:5432/libra_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000 # 5 minutes
+      connection-timeout: 20000 # 20 seconds
+      max-lifetime: 1200000 # 20 minutes
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+
