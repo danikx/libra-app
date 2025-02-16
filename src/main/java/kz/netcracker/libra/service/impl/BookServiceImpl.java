@@ -50,15 +50,15 @@ public class BookServiceImpl implements BookService {
 
         // Check for duplicate title by the same author
         if (bookRepository.existsByTitleIgnoreCaseAndAuthorId(bookDto.getTitle(), bookDto.getAuthorId())) {
-            throw new DuplicateEntityException("Book with title '" + bookDto.getTitle() + 
-                "' already exists for this author");
+            throw new DuplicateEntityException("Book with title '" + bookDto.getTitle() +
+                    "' already exists for this author");
         }
 
         // Set available copies if not provided
         if (bookDto.getAvailableCopies() == null) {
             bookDto.setAvailableCopies(bookDto.getTotalCopies());
         }
-        
+
         // Validate available copies
         if (bookDto.getAvailableCopies() > bookDto.getTotalCopies()) {
             throw new IllegalArgumentException("Available copies cannot exceed total copies");
@@ -66,11 +66,11 @@ public class BookServiceImpl implements BookService {
 
         Author author = authorRepository.findById(bookDto.getAuthorId())
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + bookDto.getAuthorId()));
-        
+
         Book book = bookMapper.toEntity(bookDto);
         book.setAuthor(author);
         book.setQrCode(qrCodeGenerator.generateQRCode());
-        
+
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -79,13 +79,13 @@ public class BookServiceImpl implements BookService {
     public BookDto updateBook(Long id, BookDto bookDto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
-        
+
         Author author = authorRepository.findById(bookDto.getAuthorId())
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + bookDto.getAuthorId()));
-        
+
         bookMapper.updateEntity(book, bookDto);
         book.setAuthor(author);
-        
+
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -121,11 +121,11 @@ public class BookServiceImpl implements BookService {
     public BookDto returnBookByQrCode(String qrCode) {
         Book book = bookRepository.findByQrCode(qrCode)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with QR code: " + qrCode));
-        
+
         if (book.getAvailableCopies() >= book.getTotalCopies()) {
             throw new BookOperationException("All copies are already returned");
         }
-        
+
         book.setAvailableCopies(book.getAvailableCopies() + 1);
         return bookMapper.toDto(bookRepository.save(book));
     }

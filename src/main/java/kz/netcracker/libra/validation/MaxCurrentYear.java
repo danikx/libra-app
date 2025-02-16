@@ -2,6 +2,7 @@ package kz.netcracker.libra.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
@@ -10,6 +11,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface MaxCurrentYear {
     String message() default "Year must not be greater than current year";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

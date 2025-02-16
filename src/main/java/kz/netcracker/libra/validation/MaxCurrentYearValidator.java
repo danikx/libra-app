@@ -12,18 +12,18 @@ public class MaxCurrentYearValidator implements ConstraintValidator<MaxCurrentYe
     @Override
     public boolean isValid(Integer year, ConstraintValidatorContext context) {
         int currentYear = LocalDate.now().getYear();
-        
+
         boolean isValid = Optional.ofNullable(year)
                 .map(y -> y <= currentYear)
                 .orElse(false);
-                
+
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(
-                    "Year must not be greater than " + currentYear)
+                            "Year must not be greater than " + currentYear)
                     .addConstraintViolation();
         }
-        
+
         return isValid;
     }
 }
