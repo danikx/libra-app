@@ -34,3 +34,8 @@ spring:
       enabled: true
     filter:
       order: 5
+
+logging:
+  level:
+    org.testcontainers: DEBUG
+    com.github.dockerjava: DEBUG

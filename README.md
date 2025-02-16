@@ -110,4 +110,8 @@ The API documentation will be available at:
 - API consumers will have better understanding of the API capabilities
 
 
+- Run unit tests (default): mvn test
+- Run integration tests only: mvn test -P integration-tests
+- Run all tests: mvn test -P unit-tests,integration-tests
+
 ## License

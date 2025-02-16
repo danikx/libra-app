@@ -38,7 +38,7 @@ public class AuthorManagementController implements AuthorManagementApi {
         return authorService.createAuthor(authorDto);
     }
 
-    @PutMapping("/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public AuthorDto updateAuthor(@PathVariable Long id, @Valid @RequestBody AuthorDto authorDto) {
         return authorService.updateAuthor(id, authorDto);

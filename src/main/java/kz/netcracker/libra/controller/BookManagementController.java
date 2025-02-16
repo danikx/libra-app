@@ -44,7 +44,7 @@ public class BookManagementController implements BookManagementApi {
         return bookService.createBook(bookDto);
     }
 
-    @PutMapping("/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public BookDto updateBook(@PathVariable Long id, @Valid @RequestBody BookDto bookDto) {
         return bookService.updateBook(id, bookDto);
