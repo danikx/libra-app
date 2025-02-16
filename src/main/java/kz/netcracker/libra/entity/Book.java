@@ -30,6 +30,9 @@ public class Book {
     @Column(nullable = false)
     private Integer availableCopies;
 
+    @Column(unique = true)
+    private String qrCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;

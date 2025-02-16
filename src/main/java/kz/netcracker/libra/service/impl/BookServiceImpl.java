@@ -10,6 +10,7 @@ import kz.netcracker.libra.mapper.BookMapper;
 import kz.netcracker.libra.repository.AuthorRepository;
 import kz.netcracker.libra.repository.BookRepository;
 import kz.netcracker.libra.service.BookService;
+import kz.netcracker.libra.util.QRCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;
+    private final QRCodeGenerator qrCodeGenerator;
 
     @Override
     public List<BookDto> getAllBooks() {
@@ -67,6 +69,7 @@ public class BookServiceImpl implements BookService {
         
         Book book = bookMapper.toEntity(bookDto);
         book.setAuthor(author);
+        book.setQrCode(qrCodeGenerator.generateQRCode());
         
         return bookMapper.toDto(bookRepository.save(book));
     }
@@ -101,23 +104,23 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookDto borrowBook(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
-        
+    public BookDto borrowBookByQrCode(String qrCode) {
+        Book book = bookRepository.findByQrCode(qrCode)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with QR code: " + qrCode));
+
         if (book.getAvailableCopies() <= 0) {
             throw new BookOperationException("No copies available for borrowing");
         }
-        
+
         book.setAvailableCopies(book.getAvailableCopies() - 1);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     @Transactional
-    public BookDto returnBook(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+    public BookDto returnBookByQrCode(String qrCode) {
+        Book book = bookRepository.findByQrCode(qrCode)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with QR code: " + qrCode));
         
         if (book.getAvailableCopies() >= book.getTotalCopies()) {
             throw new BookOperationException("All copies are already returned");

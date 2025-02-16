@@ -29,6 +29,8 @@ public class BookDto {
     
     @Min(value = 0, message = "Available copies cannot be negative")
     private Integer availableCopies;
+     
+    private String qrCode;
 
     @Positive(message = "Author ID must be a positive number")
     private Long authorId; 

@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByAuthorId(Long authorId);
     boolean existsByIsbnIgnoreCase(String isbn);
     boolean existsByTitleIgnoreCaseAndAuthorId(String title, Long authorId);
+    Optional<Book> findByQrCode(String qrCode);
 }

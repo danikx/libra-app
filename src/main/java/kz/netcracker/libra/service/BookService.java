@@ -8,8 +8,10 @@ public interface BookService {
     BookDto getBookById(Long id);
     BookDto createBook(BookDto bookDto);
     BookDto updateBook(Long id, BookDto bookDto);
-    BookDto borrowBook(Long id);
-    BookDto returnBook(Long id);
+
     void deleteBook(Long id);
     List<BookDto> getBooksByAuthorId(Long authorId);
+
+    BookDto borrowBookByQrCode(String qrCode);
+    BookDto returnBookByQrCode(String qrCode);
 }
