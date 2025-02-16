@@ -1,6 +1,5 @@
 package kz.netcracker.libra.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.netcracker.libra.api.AuthorManagementApi;
 import kz.netcracker.libra.dto.AuthorDto;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/authors",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/authors", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-@Tag(name = "Author Controller", description = "APIs for managing authors")
 public class AuthorManagementController implements AuthorManagementApi {
     private final AuthorService authorService;
 

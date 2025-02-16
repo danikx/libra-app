@@ -37,5 +37,12 @@ spring:
 
 logging:
   level:
-    org.testcontainers: DEBUG
-    com.github.dockerjava: DEBUG
+    kz.netcracker.libra: ${LOGGER_LIBRA_APP:DEBUG}
+    
+springdoc-api-docs:
+  swagger-ui:
+    path: /swagger-ui.html
+  openapi:
+    path: /v3/api-docs
+    enabled: true
+  operations-sorter: method  # method, alpha, none

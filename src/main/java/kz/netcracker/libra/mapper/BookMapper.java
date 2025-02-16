@@ -10,7 +10,6 @@ import org.mapstruct.MappingTarget;
 public interface BookMapper {
 
     @Mapping(target = "authorId", source = "author.id")
-        //@Mapping(target = "authorFullName", expression = "java(book.getAuthor().getFirstName() + \" \" + book.getAuthor().getLastName())")
     BookDto toDto(Book book);
 
     @Mapping(target = "author", ignore = true)

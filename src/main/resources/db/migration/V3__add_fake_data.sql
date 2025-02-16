@@ -4,52 +4,27 @@ INSERT INTO authors (first_name, last_name) VALUES
     ('Emily', 'Johnson'),
     ('Michael', 'Brown'),
     ('Sarah', 'Davis'),
-    ('David', 'Wilson'),
-    ('Jennifer', 'Martinez'),
-    ('William', 'Anderson'),
-    ('Elizabeth', 'Taylor'),
-    ('James', 'Thomas'),
-    ('Maria', 'Garcia'),
-    ('Robert', 'Moore'),
-    ('Patricia', 'Lee'),
-    ('Richard', 'White'),
-    ('Linda', 'Clark'),
-    ('Joseph', 'Walker'),
-    ('Margaret', 'Hall'),
-    ('Daniel', 'Young'),
-    ('Barbara', 'King'),
-    ('Charles', 'Wright'),
-    ('Susan', 'Lopez');
+    ('David', 'Wilson');
 
--- Insert books with realistic titles, ISBNs, and varying publication years
-INSERT INTO books (title, isbn, publication_year, total_copies, available_copies, qr_code, author_id)
-SELECT
-    CASE (random() * 4)::int
-        WHEN 0 THEN 'The ' || 
-            (ARRAY['Secret', 'Hidden', 'Lost', 'Last', 'First', 'New'])[1 + (random() * 6)::int] || ' ' ||
-            (ARRAY['Garden', 'Mountain', 'River', 'City', 'World', 'Journey'])[1 + (random() * 6)::int]
-        WHEN 1 THEN 
-            (ARRAY['Beyond', 'Under', 'After', 'Before', 'Through'])[1 + (random() * 5)::int] || ' the ' ||
-            (ARRAY['Stars', 'Storm', 'Dawn', 'Sunset', 'Shadows'])[1 + (random() * 5)::int]
-        WHEN 2 THEN
-            (ARRAY['Modern', 'Advanced', 'Practical', 'Essential', 'Complete'])[1 + (random() * 5)::int] || ' ' ||
-            (ARRAY['Programming', 'Mathematics', 'Physics', 'Chemistry', 'Biology'])[1 + (random() * 5)::int]
-        ELSE
-            (ARRAY['Life of', 'History of', 'Guide to', 'Art of', 'Science of'])[1 + (random() * 5)::int] || ' ' ||
-            (ARRAY['Nature', 'Humanity', 'Technology', 'Society', 'Culture'])[1 + (random() * 5)::int]
-    END,
-    '978' || 
-    (ARRAY['0', '1', '2', '3'])[1 + (random() * 4)::int] || 
-    LPAD((random() * 99999)::text, 5, '0') || 
-    LPAD((random() * 99999)::text, 5, '0'),
-    2000 + (random() * 23)::int,
-    3 + (random() * 7)::int,
-    3 + (random() * 7)::int,
-    UPPER(SUBSTRING(MD5(RANDOM()::TEXT), 1, 8)),
-    (SELECT id FROM authors ORDER BY random() LIMIT 1)
-FROM generate_series(1, 100) n;
-
--- Ensure available_copies doesn't exceed total_copies
-UPDATE books 
-SET available_copies = total_copies 
-WHERE available_copies > total_copies;
+-- Insert specific books with realistic data
+INSERT INTO books (title, isbn, publication_year, total_copies, available_copies, qr_code, author_id) VALUES
+    ('The Art of Programming', '9780134685991', 2020, 5, 5, 'PROG1234', 1),
+    ('Data Structures and Algorithms', '9780262033848', 2019, 3, 3, 'DATA5678', 1),
+    ('Modern Web Development', '9781449331818', 2021, 4, 4, 'WEB12345', 2),
+    ('Cloud Computing Basics', '9780135264354', 2022, 3, 3, 'CLOUD123', 2),
+    ('Artificial Intelligence', '9780262043793', 2023, 5, 5, 'AI123456', 3),
+    ('Machine Learning Fundamentals', '9781098107956', 2021, 4, 4, 'ML123456', 3),
+    ('Database Design', '9780321884497', 2020, 3, 3, 'DB123456', 4),
+    ('Software Architecture', '9781492043454', 2022, 4, 4, 'ARCH1234', 4),
+    ('Clean Code', '9780132350884', 2019, 5, 5, 'CODE1234', 5),
+    ('DevOps Handbook', '9781942788003', 2021, 3, 3, 'DEVS1234', 5),
+    ('Python Programming', '9781449355739', 2022, 4, 4, 'PY123456', 1),
+    ('Java Complete Reference', '9780071808552', 2020, 5, 5, 'JAVA1234', 2),
+    ('JavaScript Deep Dive', '9781449331818', 2021, 3, 3, 'JS123456', 3),
+    ('Microservices Patterns', '9781617294549', 2023, 4, 4, 'MICR1234', 4),
+    ('System Design Interview', '9780578973838', 2022, 5, 5, 'SYS12345', 5),
+    ('Coding Interview Guide', '9781984857606', 2021, 3, 3, 'INT12345', 1),
+    ('Git Version Control', '9781484200773', 2020, 4, 4, 'GIT12345', 2),
+    ('Agile Development', '9781449331924', 2022, 5, 5, 'AGIL1234', 3),
+    ('Software Testing', '9781449365820', 2021, 3, 3, 'TEST1234', 4),
+    ('Cybersecurity Basics', '9781119643777', 2023, 4, 4, 'SEC12345', 5);

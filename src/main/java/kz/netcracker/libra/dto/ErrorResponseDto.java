@@ -1,4 +1,4 @@
-package kz.netcracker.libra.exception;
+package kz.netcracker.libra.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponse {
+public class ErrorResponseDto {
     private LocalDateTime timestamp;
     private int status;
     private String error;

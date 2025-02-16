@@ -5,6 +5,7 @@ import kz.netcracker.libra.dto.AuthorDto;
 import java.util.List;
 
 public interface AuthorService {
+
     List<AuthorDto> getAllAuthors();
 
     AuthorDto getAuthorById(Long id);

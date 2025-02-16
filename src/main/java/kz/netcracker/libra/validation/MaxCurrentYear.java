@@ -10,6 +10,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = MaxCurrentYearValidator.class)
 @Documented
 public @interface MaxCurrentYear {
+
     String message() default "Year must not be greater than current year";
 
     Class<?>[] groups() default {};

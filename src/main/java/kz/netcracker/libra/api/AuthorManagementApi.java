@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.netcracker.libra.dto.AuthorDto;
-import kz.netcracker.libra.exception.ErrorResponse;
+import kz.netcracker.libra.dto.ErrorResponseDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,7 +61,7 @@ public interface AuthorManagementApi {
                     description = "Invalid input or author already exists",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ErrorResponse.class),
+                            schema = @Schema(implementation = ErrorResponseDto.class),
                             examples = @ExampleObject(
                                     value = """
                                             {
@@ -79,7 +79,7 @@ public interface AuthorManagementApi {
                     description = "Internal server error",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ErrorResponse.class),
+                            schema = @Schema(implementation = ErrorResponseDto.class),
                             examples = @ExampleObject(
                                     value = """
                                             {

@@ -42,7 +42,7 @@ class BookServiceTest {
     private QRCodeGenerator qrCodeGenerator;
     
     @Test
-    void createBook_Success() {
+    void create_book_success() {
         // Given
         BookDto bookDto = TestDataFactory.createBookDto();
         Book book = TestDataFactory.createBook();
@@ -60,5 +60,46 @@ class BookServiceTest {
 
         // Then
         assertThat(result).isNotNull();
+    }
+
+    @Test
+    void borrow_book_success() {
+        // Given
+        String qrCode = "ABC123";
+        Book book = TestDataFactory.createBook();
+        book.setAvailableCopies(5);
+        BookDto bookDto = TestDataFactory.createBookDto();
+        
+        when(bookRepository.findByQrCode(qrCode)).thenReturn(Optional.of(book));
+        when(bookRepository.save(any())).thenReturn(book);
+        when(bookMapper.toDto(any())).thenReturn(bookDto);
+
+        // When
+        BookDto result = bookService.borrowBookByQrCode(qrCode);
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(book.getAvailableCopies()).isEqualTo(4);
+    }
+
+    @Test
+    void return_book_success() {
+        // Given
+        String qrCode = "ABC123";
+        Book book = TestDataFactory.createBook();
+        book.setAvailableCopies(4);
+        book.setTotalCopies(5);
+        BookDto bookDto = TestDataFactory.createBookDto();
+        
+        when(bookRepository.findByQrCode(qrCode)).thenReturn(Optional.of(book));
+        when(bookRepository.save(any())).thenReturn(book);
+        when(bookMapper.toDto(any())).thenReturn(bookDto);
+
+        // When
+        BookDto result = bookService.returnBookByQrCode(qrCode);
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(book.getAvailableCopies()).isEqualTo(5);
     }
 }

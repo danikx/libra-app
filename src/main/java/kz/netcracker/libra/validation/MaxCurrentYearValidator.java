@@ -19,8 +19,8 @@ public class MaxCurrentYearValidator implements ConstraintValidator<MaxCurrentYe
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                            "Year must not be greater than " + currentYear)
+            context
+                    .buildConstraintViolationWithTemplate("Year must not be greater than " + currentYear)
                     .addConstraintViolation();
         }
 

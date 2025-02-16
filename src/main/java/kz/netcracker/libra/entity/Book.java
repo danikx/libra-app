@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "books")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {

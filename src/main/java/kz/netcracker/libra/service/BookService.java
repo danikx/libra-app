@@ -1,12 +1,13 @@
 package kz.netcracker.libra.service;
 
 import kz.netcracker.libra.dto.BookDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface BookService {
 
-    List<BookDto> getAllBooks();
+    Page<BookDto> getAllBooks(int page, int size, String sortBy, String direction);
 
     BookDto getBookById(Long id);
 

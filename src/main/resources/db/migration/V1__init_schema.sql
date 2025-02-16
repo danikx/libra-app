@@ -7,7 +7,7 @@ CREATE TABLE authors (
 CREATE TABLE books (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    isbn VARCHAR(255) NOT NULL,
+    isbn VARCHAR(13) NOT NULL,
     publication_year INTEGER NOT NULL,
     total_copies INTEGER NOT NULL,
     available_copies INTEGER NOT NULL,

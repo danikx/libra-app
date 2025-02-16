@@ -12,12 +12,18 @@ import kz.netcracker.libra.repository.BookRepository;
 import kz.netcracker.libra.service.BookService;
 import kz.netcracker.libra.util.QRCodeGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -27,22 +33,32 @@ public class BookServiceImpl implements BookService {
     private final QRCodeGenerator qrCodeGenerator;
 
     @Override
-    public List<BookDto> getAllBooks() {
-        return bookRepository.findAll().stream()
-                .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+    public Page<BookDto> getAllBooks(int page, int size, String sortBy, String direction) {
+        log.debug("Fetching books page={}, size={}, sortBy={}, direction={}", page, size, sortBy, direction);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(direction.toUpperCase()), sortBy);
+        Page<Book> bookPage = bookRepository.findAll(pageable);
+        log.debug("Found {} books", bookPage.getTotalElements());
+        return bookPage.map(bookMapper::toDto);
     }
 
     @Override
     public BookDto getBookById(Long id) {
+        log.debug("Fetching book with id: {}", id);
+
         return bookRepository.findById(id)
                 .map(bookMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.error("Book not found with id: {}", id);
+                    return new EntityNotFoundException("Book not found with id: " + id);
+                });
     }
 
     @Override
     @Transactional
     public BookDto createBook(BookDto bookDto) {
+        log.debug("Creating new book: {}", bookDto);
+
         // Check for duplicate ISBN
         if (bookRepository.existsByIsbnIgnoreCase(bookDto.getIsbn())) {
             throw new DuplicateEntityException("Book with ISBN " + bookDto.getIsbn() + " already exists");
@@ -71,7 +87,9 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(author);
         book.setQrCode(qrCodeGenerator.generateQRCode());
 
-        return bookMapper.toDto(bookRepository.save(book));
+        Book savedBook = bookRepository.save(book);
+        log.info("Created new book with id: {}", savedBook.getId());
+        return bookMapper.toDto(savedBook);
     }
 
     @Override
@@ -105,15 +123,26 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto borrowBookByQrCode(String qrCode) {
+        log.debug("Attempting to borrow book with QR code: {}", qrCode);
+
         Book book = bookRepository.findByQrCode(qrCode)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with QR code: " + qrCode));
+                .orElseThrow(() -> {
+                    log.error("Book not found with QR code: {}", qrCode);
+                    return new EntityNotFoundException("Book not found with QR code: " + qrCode);
+                });
 
         if (book.getAvailableCopies() <= 0) {
+            log.warn("No copies available for borrowing book with id: {}", book.getId());
             throw new BookOperationException("No copies available for borrowing");
         }
 
         book.setAvailableCopies(book.getAvailableCopies() - 1);
-        return bookMapper.toDto(bookRepository.save(book));
+        
+        Book savedBook = bookRepository.save(book);
+        log.info("Book borrowed successfully, id: {}, remaining copies: {}", 
+                savedBook.getId(), savedBook.getAvailableCopies());
+
+        return bookMapper.toDto(savedBook);
     }
 
     @Override

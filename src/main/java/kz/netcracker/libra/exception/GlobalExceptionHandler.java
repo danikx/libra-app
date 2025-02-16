@@ -1,6 +1,7 @@
 package kz.netcracker.libra.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kz.netcracker.libra.dto.ErrorResponseDto;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,11 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(
             EntityNotFoundException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
@@ -34,11 +35,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(
+    public ResponseEntity<ErrorResponseDto> handleGlobalException(
             Exception ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
@@ -50,11 +51,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateEntityException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateEntityException(
+    public ResponseEntity<ErrorResponseDto> handleDuplicateEntityException(
             DuplicateEntityException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -66,7 +67,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(
+    public ResponseEntity<ErrorResponseDto> handleValidationException(
             MethodArgumentNotValidException ex,
             HttpServletRequest request) {
 
@@ -76,7 +77,7 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining(", "));
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -88,11 +89,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(
+    public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -104,7 +105,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
+    public ResponseEntity<ErrorResponseDto> handleDataIntegrityViolation(
             DataIntegrityViolationException ex,
             HttpServletRequest request) {
 
@@ -115,7 +116,7 @@ public class GlobalExceptionHandler {
             message += ex.getMessage();
         }
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -127,11 +128,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(
+    public ResponseEntity<ErrorResponseDto> handleIllegalArgument(
             IllegalArgumentException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -143,11 +144,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BookOperationException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalState(
+    public ResponseEntity<ErrorResponseDto> handleIllegalState(
             BookOperationException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -159,11 +160,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse> handleMethodNotSupported(
+    public ResponseEntity<ErrorResponseDto> handleMethodNotSupported(
             HttpRequestMethodNotSupportedException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
+        ErrorResponseDto error = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.METHOD_NOT_ALLOWED.value(),
                 HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
