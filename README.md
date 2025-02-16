@@ -12,8 +12,8 @@ Test Spring Boot application with PostgreSQL database for netcracker.
 
 ### Clone the repository
 ```bash
-git clone <repository-url>
-cd netcracker-libra
+git clone git@github.com:danikx/libra-app.git
+cd libra-app
 ```
 
 ### Build the application
@@ -93,5 +93,3 @@ The API documentation will be available at:
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - OpenAPI docs: http://localhost:8080/v3/api-docs
-
-you can test api-doc.yaml [here](https://editor.swagger.io/) 
