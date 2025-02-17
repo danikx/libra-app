@@ -43,7 +43,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "1",
 															"description": "(Required) "
 														}
 													]
@@ -189,7 +189,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"isbn\": \"<string>\",\n  \"publicationYear\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"id\": \"<long>\",\n  \"totalCopies\": \"<integer>\",\n  \"availableCopies\": \"<integer>\",\n  \"qrCode\": \"<string>\",\n  \"authorFullName\": \"<string>\",\n  \"authorId\": \"<long>\"\n}",
+													"raw": "{\n  \"isbn\": \"123\",\n  \"publicationYear\": 2020,\n  \"title\": \"title of the book\",\n  \"totalCopies\": 10,\n  \"availableCopies\": 9,\n  \"qrCode\": \"\",\n  \"authorId\": 1\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -211,7 +211,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "0",
 															"description": "(Required) "
 														}
 													]
@@ -402,7 +402,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "0",
 															"description": "(Required) "
 														}
 													]
@@ -539,7 +539,7 @@
 																	"variable": [
 																		{
 																			"key": "qrCode",
-																			"value": "<string>",
+																			"value": "ABC111",
 																			"description": "(Required) "
 																		}
 																	]
@@ -758,7 +758,7 @@
 																	"variable": [
 																		{
 																			"key": "qrCode",
-																			"value": "<string>",
+																			"value": "ABC123",
 																			"description": "(Required) "
 																		}
 																	]
@@ -973,7 +973,7 @@
 															"variable": [
 																{
 																	"key": "authorId",
-																	"value": "<long>",
+																	"value": "1",
 																	"description": "(Required) "
 																}
 															]
@@ -1342,7 +1342,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"isbn\": \"<string>\",\n  \"publicationYear\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"id\": \"<long>\",\n  \"totalCopies\": \"<integer>\",\n  \"availableCopies\": \"<integer>\",\n  \"qrCode\": \"<string>\",\n  \"authorFullName\": \"<string>\",\n  \"authorId\": \"<long>\"\n}",
+											"raw": "{\n    \"title\": \"Data Structures and Algorithms\",\n    \"isbn\": \"9780262033848\",\n    \"publicationYear\": 2019,\n    \"totalCopies\": 3,\n    \"availableCopies\": 3,\n    \"qrCode\": \"DATA5678\",\n    \"authorId\": 1\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1542,7 +1542,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "1",
 															"description": "(Required) "
 														}
 													]
@@ -1687,7 +1687,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"id\": \"<long>\"\n}",
+													"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -1709,7 +1709,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "1",
 															"description": "(Required) "
 														}
 													]
@@ -1953,7 +1953,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "<long>",
+															"value": "0",
 															"description": "(Required) "
 														}
 													]
@@ -2163,7 +2163,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"id\": \"<long>\"\n}",
+											"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
