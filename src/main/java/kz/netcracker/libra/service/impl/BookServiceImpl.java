@@ -3,6 +3,7 @@ package kz.netcracker.libra.service.impl;
 import kz.netcracker.libra.dto.BookDto;
 import kz.netcracker.libra.entity.Author;
 import kz.netcracker.libra.entity.Book;
+import kz.netcracker.libra.event.EventType;
 import kz.netcracker.libra.exception.BookOperationException;
 import kz.netcracker.libra.exception.DuplicateEntityException;
 import kz.netcracker.libra.exception.EntityNotFoundException;
@@ -10,15 +11,16 @@ import kz.netcracker.libra.mapper.BookMapper;
 import kz.netcracker.libra.repository.AuthorRepository;
 import kz.netcracker.libra.repository.BookRepository;
 import kz.netcracker.libra.service.BookService;
+import kz.netcracker.libra.event.BookEventPublisher;
 import kz.netcracker.libra.util.QRCodeGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;
     private final QRCodeGenerator qrCodeGenerator;
+    private final BookEventPublisher eventPublisher;
 
     @Override
     public Page<BookDto> getAllBooks(int page, int size, String sortBy, String direction) {
@@ -89,7 +92,12 @@ public class BookServiceImpl implements BookService {
 
         Book savedBook = bookRepository.save(book);
         log.info("Created new book with id: {}", savedBook.getId());
-        return bookMapper.toDto(savedBook);
+
+        BookDto result = bookMapper.toDto(savedBook);
+
+        eventPublisher.publishEvent(EventType.BOOK_CREATED, result);
+
+        return result;
     }
 
     @Override
@@ -137,9 +145,9 @@ public class BookServiceImpl implements BookService {
         }
 
         book.setAvailableCopies(book.getAvailableCopies() - 1);
-        
+
         Book savedBook = bookRepository.save(book);
-        log.info("Book borrowed successfully, id: {}, remaining copies: {}", 
+        log.info("Book borrowed successfully, id: {}, remaining copies: {}",
                 savedBook.getId(), savedBook.getAvailableCopies());
 
         return bookMapper.toDto(savedBook);

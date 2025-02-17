@@ -35,6 +35,29 @@ spring:
     filter:
       order: 5
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKER:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP_ID:libra-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"  
+
+app:
+  kafka:
+    topics:
+      book-events: 
+        name: book-events
+        partitions: ${KAFKA_BOOK_EVENTS_PARTITIONS:2}
+        replicas: ${KAFKA_BOOK_EVENTS_REPLICAS:1}
+    consumer:
+      concurrency: ${KAFKA_BOOK_CONSUMER_CONCURRENCY:2}
+
 logging:
   level:
     kz.netcracker.libra: ${LOGGER_LIBRA_APP:DEBUG}
@@ -46,3 +69,4 @@ springdoc-api-docs:
     path: /v3/api-docs
     enabled: true
   operations-sorter: method  # method, alpha, none
+  

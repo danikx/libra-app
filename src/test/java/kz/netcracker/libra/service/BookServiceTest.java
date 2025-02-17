@@ -2,6 +2,8 @@ package kz.netcracker.libra.service;
 
 import kz.netcracker.libra.dto.BookDto;
 import kz.netcracker.libra.entity.Book;
+import kz.netcracker.libra.event.BookEventPublisher;
+import kz.netcracker.libra.event.EventType;
 import kz.netcracker.libra.exception.EntityNotFoundException;
 import kz.netcracker.libra.mapper.BookMapper;
 import kz.netcracker.libra.repository.AuthorRepository;
@@ -40,13 +42,16 @@ class BookServiceTest {
 
     @Mock
     private QRCodeGenerator qrCodeGenerator;
+
+    @Mock
+    private BookEventPublisher eventPublisher;
     
     @Test
     void create_book_success() {
         // Given
         BookDto bookDto = TestDataFactory.createBookDto();
         Book book = TestDataFactory.createBook();
-        
+
         when(bookMapper.toEntity(any())).thenReturn(book);
         when(bookRepository.save(any())).thenReturn(book);
         when(bookMapper.toDto(any())).thenReturn(bookDto);
