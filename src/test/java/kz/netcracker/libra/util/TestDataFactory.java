@@ -16,7 +16,7 @@ public class TestDataFactory {
     }
 
     public static BookDto createBookDto() {
-        return new BookDto(null, "Test Book", "1234567890", 2023, 5, 5,"DHF123", 1L);
+        return new BookDto(null, "Test Book", "1234567890", 2023, 5, 5,"DHF123", "authorFullName", 1L);
     }
 
     public static Book createBook() {

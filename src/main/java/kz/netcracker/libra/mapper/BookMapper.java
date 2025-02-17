@@ -10,6 +10,7 @@ import org.mapstruct.MappingTarget;
 public interface BookMapper {
 
     @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "authorFullName", expression = "java(getAuthorFullName(book))")
     BookDto toDto(Book book);
 
     @Mapping(target = "author", ignore = true)
@@ -17,4 +18,13 @@ public interface BookMapper {
 
     @Mapping(target = "author", ignore = true)
     void updateEntity(@MappingTarget Book book, BookDto bookDto);
+
+    default String getAuthorFullName(Book book) {
+        if (book.getAuthor() == null) {
+            return null;
+        }
+        return String.format("%s %s",
+                book.getAuthor().getFirstName(),
+                book.getAuthor().getLastName());
+    }
 }

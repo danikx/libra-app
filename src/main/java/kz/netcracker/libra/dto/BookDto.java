@@ -32,6 +32,8 @@ public class BookDto {
 
     private String qrCode;
 
+    private String authorFullName;
+
     @Positive(message = "Author ID must be a positive number")
     private Long authorId;
 }
