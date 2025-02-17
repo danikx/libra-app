@@ -45,9 +45,11 @@ PostgreSQL database details:
 The following environment variables can be configured in docker-compose.yml:
 
 ```yaml
-SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/libra_db
-SPRING_DATASOURCE_USERNAME: postgres
-SPRING_DATASOURCE_PASSWORD: postgres
+DB_URL: db
+DB_PORT: 5432
+DB_NAME: libra_db
+DB_USERNAME: postgres
+DB_PASSWORD: postgres
  ```
 
 ## Development
@@ -93,3 +95,6 @@ The API documentation will be available at:
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - OpenAPI docs: http://localhost:8080/v3/api-docs
+
+## Postman
+ The Postman collection is available at: postman-collection/Library API.postman_collection.json
