@@ -1,6 +1,6 @@
 package kz.netcracker.libra.listener;
 
-import kz.netcracker.libra.event.BookEvent;
+import kz.netcracker.libra.event.model.BookEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -15,7 +15,7 @@ public class BookEventListener {
     @KafkaListener(
             topics = "${app.kafka.topics.book-events.name}",
             groupId = "${spring.kafka.consumer.group-id}",
-            concurrency = "${app.kafka.consumer.concurrency:3}"
+            concurrency = "${app.kafka.topics.book-events.concurrency}"
     )
     public void handleBookCreated(ConsumerRecord<String, BookEvent> record) {
         BookEvent event = record.value();

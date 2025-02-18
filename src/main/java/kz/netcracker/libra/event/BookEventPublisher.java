@@ -2,6 +2,7 @@ package kz.netcracker.libra.event;
 
 import kz.netcracker.libra.config.properties.AppKafkaProperties;
 import kz.netcracker.libra.dto.BookDto;
+import kz.netcracker.libra.event.model.BookEvent;
 import kz.netcracker.libra.mapper.BookEventMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerRecord;

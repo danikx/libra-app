@@ -44,19 +44,28 @@ spring:
       group-id: ${KAFKA_CONSUMER_GROUP_ID:libra-group}
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      # value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         spring.json.trusted.packages: "*"  
+        spring.json.type.mapping: AuthorChangeEvent:kz.netcracker.libra.event.model.AuthorChangeEvent,BookEvent:kz.netcracker.libra.event.model.BookEvent
+        
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.value.default.type: kz.netcracker.libra.event.model.AuthorChangeEvent
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
 
 app:
   kafka:
     topics:
+      author-events:
+        name: ${KAFKA_AUTHOR_EVENT_TOPIC_NAME:libra.public.authors}
+        groupId: ${KAFKA_AUTHOR_EVENT_GROUPID:libra-author-group}
+        concurrency: ${KAFKA_AUTHOR_CONSUMER_CONCURRENCY:1}
       book-events: 
-        name: book-events
+        name: ${KAFKA_BOOK_EVENT_TOPIC_NAME:book-events}
         partitions: ${KAFKA_BOOK_EVENTS_PARTITIONS:2}
         replicas: ${KAFKA_BOOK_EVENTS_REPLICAS:1}
-    consumer:
-      concurrency: ${KAFKA_BOOK_CONSUMER_CONCURRENCY:2}
+        concurrency: ${KAFKA_BOOK_CONSUMER_CONCURRENCY:2}
 
 logging:
   level:

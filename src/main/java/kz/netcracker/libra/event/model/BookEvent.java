@@ -1,4 +1,4 @@
-package kz.netcracker.libra.event;
+package kz.netcracker.libra.event.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

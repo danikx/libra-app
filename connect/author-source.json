@@ -1,0 +1,23 @@
+{
+    "name": "author-source",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "db",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "libra_db",
+        "database.server.name": "libra",
+        
+        "table.include.list": "public.authors",
+        "plugin.name": "pgoutput",
+        "publication.autocreate.mode": "all_tables",
+        "slot.name": "author_slot",
+        "publication.name": "author_pub",
+        "topic.prefix": "libra",
+
+        "tasks.max": "1", 
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:29092",
+        "schema.history.internal.kafka.topic": "schema-changes.author"
+    }
+}
