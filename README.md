@@ -98,3 +98,22 @@ The API documentation will be available at:
 
 ## Postman
  The Postman collection is available at: postman-collection/Library API.postman_collection.json
+
+
+
+ ### Kafka connect 
+ 
+Check if connector is registered:
+curl -s localhost:8083/connectors | jq
+
+Check connector status:
+curl -s localhost:8083/connectors/author-source/status | jq
+
+List active topics (should see libra.public.authors):
+curl -s localhost:8083/connectors/author-source/topics | jq
+
+view configurations
+curl -s localhost:8083/connectors/author-source/config | jq
+
+delete connector
+curl -X DELETE http://localhost:8083/connectors/author-source         
